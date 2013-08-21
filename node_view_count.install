@@ -48,14 +48,14 @@ function node_view_count_schema() {
  * Implements hook_install().
  */
 function node_view_count_install() {
-  variable_set('node_view_count_node_types', array());
-  variable_set('node_view_count_user_roles', array());
+  variable_set('node_view_count_node_types_options', array());
+  variable_set('node_view_count_user_roles_options', array());
 }
 
 /**
  * Implements hook_uninstall().
  */
 function node_view_count_uninstall() {
-  variable_del('node_view_count_node_types');
-  variable_del('node_view_count_user_roles');
+  variable_del('node_view_count_node_types_options');
+  variable_del('node_view_count_user_roles_options');
 }
