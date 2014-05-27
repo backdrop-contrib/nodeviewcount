@@ -2,4 +2,4 @@ name = Node view count
 description = Module count view of node for user.
 core = 7.x
 
-configure = admin/config/content/count-view
+configure = admin/config/content/nodeviewcount

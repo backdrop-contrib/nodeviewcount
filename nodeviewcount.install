@@ -3,10 +3,9 @@
 /**
  * Implements hook_schema().
  */
-function node_view_count_schema() {  
+function nodeviewcount_schema() {
   $schema = array();
-  
-  $schema['node_view_count'] = array(
+  $schema['nodeviewcount'] = array(
     'description' => 'The count views of node for every user.',
     'fields' => array(
       'id' => array(
@@ -40,22 +39,25 @@ function node_view_count_schema() {
       'timestamp' => array('timestamp'),  
     ),  
   );
-  
   return $schema;
 }
 
 /**
  * Implements hook_install().
  */
-function node_view_count_install() {
-  variable_set('node_view_count_node_types_options', array());
-  variable_set('node_view_count_user_roles_options', array());
+function nodeviewcount_install() {
+  variable_set('nodeviewcount_node_types', array());
+  variable_set('nodeviewcount_user_roles', array());
+  variable_set('nodeviewcount_way_counting', NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS);
+  variable_set('nodeviewcount_flush_log_timer', 0);
 }
 
 /**
  * Implements hook_uninstall().
  */
-function node_view_count_uninstall() {
-  variable_del('node_view_count_node_types_options');
-  variable_del('node_view_count_user_roles_options');
+function nodeviewcount_uninstall() {
+  variable_del('nodeviewcount_node_types');
+  variable_del('nodeviewcount_user_roles');
+  variable_del('nodeviewcount_way_counting');
+  variable_del('nodeviewcount_flush_log_timer');
 }
