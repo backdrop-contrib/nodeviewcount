@@ -72,7 +72,13 @@ function nodeviewcount_get_node_view_modes_count() {
  */
 function nodeviewcount_is_user_role_count($user) {
   $nodeviewcount_user_roles = variable_get('nodeviewcount_user_roles', array());
+  $excluded_user_roles = variable_get('nodeviewcount_excluded_user_roles', array());
   $user_roles_ids = array_keys($user->roles);
+  foreach ($user_roles_ids as $role_id) {
+    if (!empty($excluded_user_roles[$role_id])) {
+      return FALSE;
+    }
+  }
   foreach ($user_roles_ids as $role_id) {
     if (!empty($nodeviewcount_user_roles[$role_id])) {
       return TRUE;

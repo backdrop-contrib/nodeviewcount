@@ -13,6 +13,7 @@ function nodeviewcount_admin_settings_form($form, &$form_state) {
     '#options' => $options_node_type,
     '#default_value' => variable_get('nodeviewcount_node_types', array()),
   );
+  // Get node view modes.
   $form['nodeviewcount_node_modes'] = array(
     '#title' => t('Node view modes'),
     '#type' => 'fieldset',
@@ -28,7 +29,30 @@ function nodeviewcount_admin_settings_form($form, &$form_state) {
     '#default_value' => $nodeviewcount_node_view_modes,
   );
   // Get user roles options.
-  $options_user_roles = node_view_count_get_checked_user_roles();
+  $options_user_roles = node_view_count_get_user_roles();
+  $form['nodeviewcount_user_roles'] = array(
+    '#title' => t('User roles'),
+    '#description' => t('Choose user roles to count node views for.'),
+    '#type' => 'checkboxes',
+    '#options' => $options_user_roles,
+    '#default_value' => variable_get('nodeviewcount_user_roles', array()),
+  );
+  // Get excluded user roles.
+  $form['nodeviewcount_excluded_roles'] = array(
+    '#title' => t('Excluded user roles'),
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $options_excluded_user_roles = node_view_count_get_excluded_user_roles();
+  $form['nodeviewcount_excluded_roles']['nodeviewcount_excluded_user_roles'] = array(
+    '#description' => t('Choose user roles which will be excluded from counting node views.'),
+    '#type' => 'checkboxes',
+    '#options' => $options_excluded_user_roles,
+    '#default_value' => variable_get('nodeviewcount_excluded_user_roles', array()),
+  );
+  // Get user roles options.
+  $options_user_roles = node_view_count_get_user_roles();
   $form['nodeviewcount_user_roles'] = array(
     '#title' => t('User roles'),
     '#description' => t('Choose user roles to count node views for.'),
@@ -71,8 +95,19 @@ function nodeviewcount_admin_settings_form($form, &$form_state) {
     '#options' => $options_flush_log_timer,
     '#description' => t('Older log entries will be automatically discarded, (Requires a correctly configured <a href="@cron">cron maintenance task</a>.). Pick Never if you dont want logs to be deleted.', $cron_path),
   );
+  $form['#submit'][] = 'nodeviewcount_admin_settings_form_submit';
   $form = system_settings_form($form);
   return $form;
+}
+
+function nodeviewcount_admin_settings_form_submit($form, &$form_state) {
+  $values = $form_state['values'];
+  $couting_user_roles = $values['nodeviewcount_user_roles'];
+  foreach ($couting_user_roles as $key => $couting_user_role) {
+    if ($couting_user_role) {
+      $form_state['values']['nodeviewcount_excluded_user_roles'][$key] = 0;
+    }
+  }
 }
 
 /**
@@ -97,12 +132,36 @@ function nodeviewcount_get_checked_node_types() {
  * @return array
  *   Associative array of user roles.
  */
-function node_view_count_get_checked_user_roles() {
+function node_view_count_get_user_roles() {
   $options = array();
+  //Excluded user roles.
+  $excluded_user_roles = variable_get('nodeviewcount_excluded_user_roles', array());
   // All user roles on site.
   $user_roles = user_roles();
   foreach ($user_roles as $key => $user_role) {
-    $options[$key] = $user_role;
+    if (empty($excluded_user_roles[$key])) {
+      $options[$key] = $user_role;
+    }
+  }
+  return $options;
+}
+
+/**
+ * Get excluded user roles options.
+ *
+ * @return array
+ *   Associative array of user roles.
+ */
+function node_view_count_get_excluded_user_roles() {
+  $options = array();
+  // Counting user roles.
+  $counting_user_roles = variable_get('nodeviewcount_user_roles', array());
+  // All user roles on site.
+  $user_roles = user_roles();
+  foreach ($user_roles as $key => $user_role) {
+    if (empty($counting_user_roles[$key])) {
+      $options[$key] = $user_role;
+    }
   }
   return $options;
 }

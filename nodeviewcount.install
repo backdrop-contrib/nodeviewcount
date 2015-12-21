@@ -61,3 +61,21 @@ function nodeviewcount_uninstall() {
   variable_del('nodeviewcount_way_counting');
   variable_del('nodeviewcount_flush_log_timer');
 }
+
+/**
+ * Add a new nid index in DB to the table nodeviewcount.
+ */
+function nodeviewcount_update_7211() {
+  $table = 'nodeviewcount';
+  $index_name = 'nid';
+
+  if (db_table_exists($table)) {
+    if (!db_index_exists($table, $index_name)) {
+      db_add_index($table, $index_name, array('nid'));
+      return t('New index added');
+    }
+    else {
+      return t('Index already exist');
+    }
+  }
+}
