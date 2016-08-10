@@ -32,8 +32,9 @@ function nodeviewcount_schema() {
         'not null' => TRUE,
       ),
       'timestamp' => array(
-        'description' => 'The Unix timestamp when the node was view.',
-        'type' => 'int',
+        'description' => 'The timestamp when the node was view.',
+        'type' => 'varchar',
+        'length' => 100,
         'not null' => TRUE,
         'default' => 0,
       ),

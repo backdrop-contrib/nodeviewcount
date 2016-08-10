@@ -108,7 +108,7 @@ function nodeviewcount_cron() {
   $flush_log_timer = variable_get('nodeviewcount_flush_log_timer', 0);
   if ($flush_log_timer > 0) {
     db_delete('nodeviewcount')
-      ->condition('timestamp', REQUEST_TIME - $flush_log_timer, '<')
+      ->condition('timestamp', format_date(REQUEST_TIME - $flush_log_timer, 'custom', 'Y-m-d H:i:s', date_default_timezone_get()), '<')
       ->execute();
   }
 }
@@ -121,4 +121,21 @@ function nodeviewcount_views_api() {
     'api' => 3.0,
     'path' => drupal_get_path('module', 'nodeviewcount') . '/includes',
   );
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function nodeviewcount_entity_info() {
+  $info['nodeviewcount'] = array(
+    'label' => t('Node view count'),
+    'base table' => 'nodeviewcount',
+    'entity keys' => array(
+      'id' => 'id',
+    ),
+    'module' => 'nodeviewcount',
+    'entity class' => 'Entity',
+    'controller class' => 'EntityAPIController',
+  );
+  return $info;
 }
