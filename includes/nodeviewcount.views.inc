@@ -67,11 +67,11 @@ function nodeviewcount_views_data() {
     'title' => t('Timestamp'),
     'help' => t('When user view of node.'),
     'field' => array(
-      'handler' => 'views_handler_field_date',
+      'handler' => 'views_handler_field',
       'click sortable' => TRUE,
     ),
     'filter' => array(
-      'handler' => 'views_handler_filter_date',
+      'handler' => 'views_handler_filter_string',
     ),
     'sort' => array(
       'handler' => 'views_handler_sort_date',
