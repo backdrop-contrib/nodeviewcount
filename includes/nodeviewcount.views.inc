@@ -17,6 +17,20 @@ function nodeviewcount_views_data() {
       'field' => 'nid',
     ),
   );
+  $data['nodeviewcount']['id'] = array(
+    'title' => t('Id'),
+    'help' => t('View count id.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_group_by_numeric',
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_group_by_numeric',
+    ),
+  );
   $data['nodeviewcount']['nid'] = array(
     'title' => t('Node id'),
     'help' => t('Node id.'),
