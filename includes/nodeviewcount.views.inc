@@ -16,6 +16,12 @@ function nodeviewcount_views_data() {
       'left_field' => 'nid',
       'field' => 'nid',
     ),
+    'users' => array(
+      'handler' => 'views_join',
+      'left_table' => 'users',
+      'left_field' => 'uid',
+      'field' => 'uid',
+    ),
   );
   $data['nodeviewcount']['nid'] = array(
     'title' => t('Node id'),
