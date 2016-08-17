@@ -108,7 +108,7 @@ function nodeviewcount_cron() {
   $flush_log_timer = variable_get('nodeviewcount_flush_log_timer', 0);
   if ($flush_log_timer > 0) {
     db_delete('nodeviewcount')
-      ->condition('timestamp', format_date(REQUEST_TIME - $flush_log_timer, 'custom', 'Y-m-d H:i:s', date_default_timezone_get()), '<')
+      ->condition('datetime', format_date(REQUEST_TIME - $flush_log_timer, 'custom', DEFAULT_TIME_FORMAT, date_default_timezone_get()), '<')
       ->execute();
   }
 }
