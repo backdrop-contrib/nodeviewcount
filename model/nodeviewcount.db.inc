@@ -19,7 +19,7 @@ function nodeviewcount_db_insert_node_view($nid, $uid) {
   $fields = array(
     'nid' => $nid,
     'uid' => $uid,
-    'timestamp' => $dateTime->format(DEFAULT_TIME_FORMAT),
+    'datetime' => $dateTime->format(DEFAULT_TIME_FORMAT),
   );
   return drupal_write_record('nodeviewcount', $fields);
 }
@@ -50,6 +50,6 @@ function nodeviewcount_db_count_node_views($node, $user = NULL, $distinct_users 
   else {
     $query->count();
   }
-  $result = $query->execute()->fetchAll();
+  $result = $query->execute();
   return $result;
 }

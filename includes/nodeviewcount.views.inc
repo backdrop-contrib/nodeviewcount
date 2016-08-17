@@ -23,6 +23,20 @@ function nodeviewcount_views_data() {
       'field' => 'uid',
     ),
   );
+  $data['nodeviewcount']['id'] = array(
+    'title' => t('Id'),
+    'help' => t('View count id.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_group_by_numeric',
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_group_by_numeric',
+    ),
+  );
   $data['nodeviewcount']['nid'] = array(
     'title' => t('Node id'),
     'help' => t('Node id.'),
@@ -69,8 +83,8 @@ function nodeviewcount_views_data() {
       'handler' => 'views_handler_argument_numeric',
     ),
   );
-  $data['nodeviewcount']['timestamp'] = array(
-    'title' => t('Timestamp'),
+  $data['nodeviewcount']['datetime'] = array(
+    'title' => t('Datetime'),
     'help' => t('When user view of node.'),
     'field' => array(
       'handler' => 'views_handler_field',
