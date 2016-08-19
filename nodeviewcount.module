@@ -101,6 +101,9 @@ function nodeviewcount_node_view($node, $view_mode, $langcode) {
   $firstView = FALSE;
   $way_counting = variable_get('nodeviewcount_way_counting', NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS);
   $viewsLimit = variable_get('nodeviewcount_views_limit');
+  if (!isset($viewsLimit)) {
+    $viewsLimit = 0;
+  }
   $viewsLimitInterval = new DateInterval('PT' . $viewsLimit . 'S');
   $dateTime = new DateTime('NOW');
   $dateTime->setTimeZone(new DateTimeZone(date_default_timezone_get()));
