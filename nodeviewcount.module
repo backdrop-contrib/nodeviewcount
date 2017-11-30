@@ -32,44 +32,6 @@ function nodeviewcount_menu() {
 }
 
 /**
- * Menu argument loader: Current node.
- *
- * @param int $nid
- *   Node id.
- *
- * @return bool|mixed
- *   Node object or FALSE.
- */
-function nodeviewcount_node_load($nid) {
-  if (is_numeric($nid)) {
-    $node = node_load($nid);
-    if ($node) {
-      return $node;
-    }
-  }
-  return FALSE;
-}
-
-/**
- * Menu argument loader: Current user.
- *
- * @param int $uid
- *   User id.
- *
- * @return bool|mixed
- *   User object or FALSE.
- */
-function nodeviewcount_user_load($uid) {
-  if (is_numeric($uid)) {
-    $user = user_load($uid);
-    if ($user) {
-      return $user;
-    }
-  }
-  return FALSE;
-}
-
-/**
  * Implements hook_node_view().
  */
 function nodeviewcount_node_view($node, $view_mode, $langcode) {
