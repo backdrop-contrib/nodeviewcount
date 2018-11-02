@@ -34,7 +34,7 @@ function nodeviewcount_views_data() {
       'handler' => 'views_handler_filter_group_by_numeric',
     ),
     'sort' => array(
-      'handler' => 'views_handler_sort_group_by_numeric',
+      'handler' => 'views_handler_sort',
     ),
   );
   $data['nodeviewcount']['nid'] = array(
