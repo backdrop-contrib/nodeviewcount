@@ -1,5 +1,10 @@
-jQuery(document).ready(function($) {
-  var nodeviewcount_insert_node_view = function(nid, uid) {
+/**
+ * @file
+ * Send info about node viewing.
+ */
+
+jQuery(document).ready(function ($) {
+  var nodeviewcount_insert_node_view = function (nid, uid) {
     var nodeviewcount_path = Drupal.settings.nodeviewcount.nodeviewcount_path;
     $.ajax({
       type: 'POST',

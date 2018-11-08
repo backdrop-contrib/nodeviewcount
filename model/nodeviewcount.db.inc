@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Database functions.
+ */
+
+/**
  * Insert node view.
  *
  * @param int $nid

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Defines necessery hooks.
+ */
+
 define('NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS', 0);
 define('NODEVIEWCOUNT_JS_WAY_COUNT_VIEWS', 1);
 define('NODEVIEWCOUNT_DEFAULT_TIME_FORMAT', 'Y-m-d H:i:sP');

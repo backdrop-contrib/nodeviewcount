@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Creates table for views counting.
+ */
+
+/**
  * Implements hook_schema().
  */
 function nodeviewcount_schema() {
@@ -30,14 +35,14 @@ function nodeviewcount_schema() {
         'description' => 'The Unix timestamp when the node was view.',
         'type' => 'int',
         'not null' => TRUE,
-        'default' => 0, 
+        'default' => 0,
       ),
     ),
-    'primary key' => array('id'),     
+    'primary key' => array('id'),
     'indexes' => array(
       'nid_uid' => array('uid', 'nid'),
-      'timestamp' => array('timestamp'),  
-    ),  
+      'timestamp' => array('timestamp'),
+    ),
   );
   return $schema;
 }

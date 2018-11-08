@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @file
+ * Modifies data table.
+ */
+
+/**
+ * Implements hook_views_data().
+ */
 function nodeviewcount_views_data() {
   $data = array();
   $data['nodeviewcount']['table']['group'] = t('Node count');

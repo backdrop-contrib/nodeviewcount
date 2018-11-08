@@ -1,11 +1,16 @@
 <?php
 
 /**
+ * @file
+ * Node views count statistics configuration.
+ */
+
+/**
  * Implements hook_views_default_views().
  */
 function nodeviewcount_views_default_views() {
   $default_views = array();
-  //Exported nodeviewcount admin statistics view.
+  // Exported nodeviewcount admin statistics view.
   $view = new view();
   $view->name = 'nodeviewscount_statistics';
   $view->description = '';
