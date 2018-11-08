@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Necessery function for module to work.
+ */
+
+/**
  * Insert node view.
  *
  * @param int $nid
@@ -50,6 +55,12 @@ function nodeviewcount_is_node_view_mode_count($view_mode) {
   return FALSE;
 }
 
+/**
+ * Collects node view modes.
+ *
+ * @return array
+ *   Array with node view modes.
+ */
 function nodeviewcount_get_node_view_modes_count() {
   $node_view_modes_count = array();
   $node_view_modes = variable_get('nodeviewcount_node_view_modes', array());
@@ -92,7 +103,7 @@ function nodeviewcount_is_user_role_count($user) {
  *
  * @param object $node
  *   Chosen node for counting.
- * @param object|NULL $user
+ * @param object|null $user
  *   Chosen user for counting.
  * @param bool $distinct_users
  *   Distinct user or not.

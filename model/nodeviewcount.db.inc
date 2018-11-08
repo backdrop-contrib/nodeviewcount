@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Database functions.
+ */
+
 define('DEFAULT_TIME_FORMAT', 'Y-m-d H:i:sP');
 
 /**

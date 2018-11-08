@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Defines necessery hooks.
+ */
+
 define('NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS', 0);
 define('NODEVIEWCOUNT_JS_WAY_COUNT_VIEWS', 1);
 
@@ -179,7 +184,7 @@ function nodeviewcount_entity_info() {
  * @return string
  *   The token.
  */
-function _nodeviewcount_create_token($data) {
+function _nodeviewcount_create_token(array $data) {
   $key = variable_get('nodeviewcount_secret_key', 'SECRET_KEY');
   $data = implode(':', $data);
 

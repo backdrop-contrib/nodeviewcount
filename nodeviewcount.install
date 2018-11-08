@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Creates table for views counting.
+ */
+
+/**
  * Implements hook_schema().
  */
 function nodeviewcount_schema() {

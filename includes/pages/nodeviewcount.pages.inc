@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Contains ajax callback.
+ */
+
+/**
  * Page callback: Add node view ajax.
  *
  * @param object $node

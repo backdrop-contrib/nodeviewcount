@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Admin form defenition.
+ */
+
+/**
  * Nodeviewcount admin form.
  */
 function nodeviewcount_admin_settings_form($form, &$form_state) {
@@ -125,6 +130,11 @@ function nodeviewcount_admin_settings_form($form, &$form_state) {
   return $form;
 }
 
+/**
+ * Submit handler.
+ *
+ * @see nodeviewcount_admin_settings_form()
+ */
 function nodeviewcount_admin_settings_form_submit($form, &$form_state) {
   $values = $form_state['values'];
   $couting_user_roles = $values['nodeviewcount_user_roles'];
@@ -159,7 +169,7 @@ function nodeviewcount_get_checked_node_types() {
  */
 function node_view_count_get_user_roles() {
   $options = array();
-  //Excluded user roles.
+  // Excluded user roles.
   $excluded_user_roles = variable_get('nodeviewcount_excluded_user_roles', array());
   // All user roles on site.
   $user_roles = user_roles();
