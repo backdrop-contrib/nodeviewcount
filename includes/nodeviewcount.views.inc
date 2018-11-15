@@ -70,7 +70,7 @@ function nodeviewcount_views_data() {
   );
   $data['nodeviewcount']['uid'] = array(
     'title' => t('Who view'),
-    'help' => t('Who view  of node.'),
+    'help' => t('Who view of node.'),
     'relationship' => array(
       'base' => 'users',
       'field' => 'uid',
@@ -105,5 +105,13 @@ function nodeviewcount_views_data() {
       'handler' => 'views_handler_sort_date',
     ),
   );
+  $data['nodeviewcount']['uip'] = array(
+    'title' => t('User IP'),
+    'help' => t('User IP view of node.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+    ),
+  );
+
   return $data;
 }

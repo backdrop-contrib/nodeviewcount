@@ -12,12 +12,14 @@
  *   The viewed node.
  * @param int $uid
  *   The user who viewed node.
+ * @param int $uip
+ *   The user ip who viewed node.
  *
  * @return bool|int
  *   Count written records or FALSE.
  */
-function nodeviewcount_insert_node_view($nid, $uid) {
-  $node_view = nodeviewcount_db_insert_node_view($nid, $uid);
+function nodeviewcount_insert_node_view($nid, $uid, $uip) {
+  $node_view = nodeviewcount_db_insert_node_view($nid, $uid, $uip);
   return $node_view;
 }
 

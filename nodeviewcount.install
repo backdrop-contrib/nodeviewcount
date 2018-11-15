@@ -38,6 +38,13 @@ function nodeviewcount_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
+      'uip' => array(
+        'description' => 'The user IP who view of node.',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
     ),
     'primary key' => array('id'),
     'indexes' => array(
@@ -93,4 +100,18 @@ function nodeviewcount_update_7211() {
  */
 function nodeviewcount_update_7212() {
   variable_set('nodeviewcount_secret_key', drupal_random_key());
+}
+
+/**
+ * Create field in database, for storage user IP.
+ */
+function nodeviewcount_update_7300() {
+  $field = array(
+    'description' => 'The user IP who view of node.',
+    'type' => 'varchar',
+    'length' => 100,
+    'not null' => TRUE,
+    'default' => 0,
+  );
+  db_add_field('nodeviewcount', 'uip', $field);
 }

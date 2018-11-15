@@ -14,17 +14,20 @@ define('DEFAULT_TIME_FORMAT', 'Y-m-d H:i:sP');
  *   The viewed node.
  * @param int $uid
  *   The user who viewed node.
+ * @param int $uip
+ *   The user ip who viewed node.
  *
  * @return bool|int
  *   Count written records or FALSE.
  */
-function nodeviewcount_db_insert_node_view($nid, $uid) {
+function nodeviewcount_db_insert_node_view($nid, $uid, $uip) {
   $dateTime = new DateTime('NOW');
   $dateTime->setTimeZone(new DateTimeZone(date_default_timezone_get()));
   $fields = array(
     'nid' => $nid,
     'uid' => $uid,
     'datetime' => $dateTime->format(DEFAULT_TIME_FORMAT),
+    'uip' => $uip,
   );
   return drupal_write_record('nodeviewcount', $fields);
 }
