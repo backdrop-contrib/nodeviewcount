@@ -76,16 +76,17 @@ function nodeviewcount_node_view($node, $view_mode, $langcode) {
     $firstView = TRUE;
   }
   $sessionTimeLimit = _nodeviewcount_get_session_time_limit($nid);
-  $sessionTimeLimit->add($viewsLimitInterval);
+  $uip = ip_address();
+
   // Check the time limit given by the session, FALSE if it is first view.
   if (($sessionTimeLimit === FALSE) || ($dateTime >= $sessionTimeLimit)) {
     $_SESSION['nodeviewcount_views_limit'][$nid] = $dateTime;
     if ($way_counting == NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS) {
-      nodeviewcount_insert_node_view($node->nid, $user->uid);
+      nodeviewcount_insert_node_view($node->nid, $user->uid, $uip);
     }
     else {
       $timestamp = $dateTime->getTimestamp();
-      $token_data = array($node->nid, $user->uid, $timestamp);
+      $token_data = array($node->nid, $user->uid, $timestamp, $uip);
       $token = _nodeviewcount_create_token($token_data);
 
       $js_setting = array(
@@ -94,6 +95,7 @@ function nodeviewcount_node_view($node, $view_mode, $langcode) {
           'nodeviewcount_nid' => $node->nid,
           'nodeviewcount_uid' => $user->uid,
           'nodeviewcount_timestamp' => $timestamp,
+          'nodeviewcount_uip' => $uip,
           'nodeviewcount_token' => $token,
         ),
       );

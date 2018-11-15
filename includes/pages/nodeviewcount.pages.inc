@@ -14,15 +14,17 @@
  *   The user for counting.
  * @param int $timestamp
  *   When the node was viewed.
+ * @param string $uip
+ *   The user ID for viewed.
  * @param string $token
  *   Token generated to verify the URL.
  */
-function nodeviewcount_count_node_view_ajax($node, $user, $timestamp, $token) {
+function nodeviewcount_count_node_view_ajax($node, $user, $timestamp, $uip, $token) {
   $is_js_way = (variable_get('nodeviewcount_way_counting', NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS) == NODEVIEWCOUNT_JS_WAY_COUNT_VIEWS);
 
   // Process the request only if the JS counting method is the selected.
   if ($is_js_way) {
-    $token_data = array($node->nid, $user->uid, $timestamp);
+    $token_data = array($node->nid, $user->uid, $timestamp, $uip);
     $recreated_token = _nodeviewcount_create_token($token_data);
     $is_valid_token = ($token == $recreated_token);
 
@@ -35,7 +37,7 @@ function nodeviewcount_count_node_view_ajax($node, $user, $timestamp, $token) {
       if ($timestamp >= $sessionTimeLimitTs) {
         if ($node && $user) {
           $_SESSION['nodeviewcount_views_limit_js'][$node->nid] = $_SESSION['nodeviewcount_views_limit'][$node->nid];
-          nodeviewcount_insert_node_view($node->nid, $user->uid);
+          nodeviewcount_insert_node_view($node->nid, $user->uid, $uip);
         }
       }
     }
