@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Admin form defenition.
@@ -9,18 +8,20 @@
  * Nodeviewcount admin form.
  */
 function nodeviewcount_admin_settings_form($form, &$form_state) {
+  //$form['#config'] = array('nodeviewcount.settings');
+  //$config = config('nodeviewcount.settings');
+
   // Get node types options.
   $options_node_type = nodeviewcount_get_checked_node_types();
   $form['nodeviewcount_node_types'] = array(
-    '#title' => t('Node types'),
-    '#description' => t('Choose content types to count views of node.'),
+    '#title' => t('Content types: count views on content of this type'),
     '#type' => 'checkboxes',
     '#options' => $options_node_type,
     '#default_value' => variable_get('nodeviewcount_node_types', array()),
   );
   // Get node view modes.
   $form['nodeviewcount_node_modes'] = array(
-    '#title' => t('Node view modes'),
+    '#title' => t('Node display modes'),
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
@@ -37,7 +38,7 @@ function nodeviewcount_admin_settings_form($form, &$form_state) {
   $options_user_roles = node_view_count_get_user_roles();
   $form['nodeviewcount_user_roles'] = array(
     '#title' => t('User roles'),
-    '#description' => t('Choose user roles to count node views for.'),
+    '#title' => t('User roles: count views from people in these roles'),
     '#type' => 'checkboxes',
     '#options' => $options_user_roles,
     '#default_value' => variable_get('nodeviewcount_user_roles', array()),
@@ -67,12 +68,11 @@ function nodeviewcount_admin_settings_form($form, &$form_state) {
   );
   // Get ways of counting options.
   $options_way_counting = array(
-    NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS => t('PHP way'),
-    NODEVIEWCOUNT_JS_WAY_COUNT_VIEWS => t('JS way'),
+    NODEVIEWCOUNT_JS_WAY_COUNT_VIEWS => t('JavaScript (reommended)'),
+    NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS => t('PHP (Anonymos views cannot be counted)'),
   );
   $form['nodeviewcount_way_counting'] = array(
-    '#title' => t('Ways of counting'),
-    '#description' => t('Choose a way how the module should count node view. If you want count node views anonymous users you must choose JS way.'),
+    '#title' => t('Method of counting'),
     '#type' => 'radios',
     '#options' => $options_way_counting,
     '#default_value' => variable_get('nodeviewcount_way_counting', NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS),
@@ -127,6 +127,7 @@ function nodeviewcount_admin_settings_form($form, &$form_state) {
   );
   $form['#submit'][] = 'nodeviewcount_admin_settings_form_submit';
   $form = system_settings_form($form);
+
   return $form;
 }
 

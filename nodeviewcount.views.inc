@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Modifies data table.
@@ -10,11 +9,11 @@
  */
 function nodeviewcount_views_data() {
   $data = array();
-  $data['nodeviewcount']['table']['group'] = t('Node count');
+  $data['nodeviewcount']['table']['group'] = t('Nodeview count');
   $data['nodeviewcount']['table']['base'] = array(
     'field' => 'nid',
-    'title' => t('Node view count'),
-    'help' => t('This table is containing the data about count view of node.'),
+    'title' => t('Nodeview counts'),
+    'help' => t('This table contains views of nodes.'),
     'weight' => -10,
   );
   $data['nodeviewcount']['table']['join'] = array(
@@ -32,8 +31,8 @@ function nodeviewcount_views_data() {
     ),
   );
   $data['nodeviewcount']['id'] = array(
-    'title' => t('Id'),
-    'help' => t('View count id.'),
+    'title' => t('Nodeview count ID'),
+    'help' => t('ID for the node view count.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
       'click sortable' => TRUE,
@@ -46,13 +45,14 @@ function nodeviewcount_views_data() {
     ),
   );
   $data['nodeviewcount']['nid'] = array(
-    'title' => t('Node id'),
-    'help' => t('Node id.'),
+    'title' => t('Nodeview content nid'),
+    'help' => t('Node ID forcontent that was viewed.'),
     'relationship' => array(
+      'title' => t('Nodeview content ID'),
       'base' => 'node',
-      'field' => 'nid',
+      'base field' => 'nid',
       'handler' => 'views_handler_relationship',
-      'label' => t('Node View Count Node'),
+      'label' => t('Node ID'),
     ),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -69,13 +69,14 @@ function nodeviewcount_views_data() {
     ),
   );
   $data['nodeviewcount']['uid'] = array(
-    'title' => t('Who view'),
-    'help' => t('Who view of node.'),
+    'title' => t('Nodeview User account ID'),
+    'help' => t('The User account ID for the person Who viewed the node.'),
     'relationship' => array(
+      'title' => t('Nodeview User ID'),
       'base' => 'users',
       'field' => 'uid',
       'handler' => 'views_handler_relationship',
-      'label' => t('Node View Count User'),
+      'label' => t('User ID'),
     ),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -92,8 +93,8 @@ function nodeviewcount_views_data() {
     ),
   );
   $data['nodeviewcount']['datetime'] = array(
-    'title' => t('Datetime'),
-    'help' => t('When user view of node.'),
+    'title' => t('Nodeview time'),
+    'help' => t('The date and time when the node was viewed.'),
     'field' => array(
       'handler' => 'views_handler_field',
       'click sortable' => TRUE,
@@ -106,8 +107,8 @@ function nodeviewcount_views_data() {
     ),
   );
   $data['nodeviewcount']['uip'] = array(
-    'title' => t('User IP'),
-    'help' => t('User IP view of node.'),
+    'title' => t('Nodeview User IP'),
+    'help' => t('IP for user account that viewed the node.'),
     'field' => array(
       'handler' => 'views_handler_field',
     ),

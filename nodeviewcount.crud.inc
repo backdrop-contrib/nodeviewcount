@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Necessery function for module to work.
@@ -81,18 +80,18 @@ function nodeviewcount_get_node_view_modes_count() {
  *   The user for checking.
  *
  * @return bool
- *   TRUE if the user role checked for count views, otherwise FALSE.
+ *   TRUE if views should be counted for this user's role(s), otherwise FALSE.
  */
 function nodeviewcount_is_user_role_count($user) {
   $nodeviewcount_user_roles = variable_get('nodeviewcount_user_roles', array());
   $excluded_user_roles = variable_get('nodeviewcount_excluded_user_roles', array());
-  $user_roles_ids = array_keys($user->roles);
-  foreach ($user_roles_ids as $role_id) {
+
+  foreach ($user->roles as $role_id) {
     if (!empty($excluded_user_roles[$role_id])) {
       return FALSE;
     }
   }
-  foreach ($user_roles_ids as $role_id) {
+  foreach ($user->roles as $role_id) {
     if (!empty($nodeviewcount_user_roles[$role_id])) {
       return TRUE;
     }

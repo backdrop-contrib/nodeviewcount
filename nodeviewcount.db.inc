@@ -34,6 +34,7 @@ function nodeviewcount_db_insert_node_view($nid, $uid, $uip) {
 
 /**
  * Count node views.
+ * Note: I'm not sure this is ever used.
  *
  * @param object $node
  *   Node.
@@ -46,11 +47,10 @@ function nodeviewcount_db_insert_node_view($nid, $uid, $uip) {
  *   Count of node views.
  */
 function nodeviewcount_db_count_node_views($node, $user = NULL, $distinct_users = FALSE) {
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'nodeviewcount');
-  $query->propertyCondition('nid', $node->nid);
+  $query = db_select('nodeviewcount', 'nvc')->condition('nid', $node->nid);
+
   if ($user) {
-    $query->propertyCondition('uid', $user->uid);
+    $query->pcondition('uid', $user->uid);
   }
   if ($distinct_users) {
     $query->count('DISTINCT uid');
@@ -59,5 +59,6 @@ function nodeviewcount_db_count_node_views($node, $user = NULL, $distinct_users 
     $query->count();
   }
   $result = $query->execute();
+
   return $result;
 }

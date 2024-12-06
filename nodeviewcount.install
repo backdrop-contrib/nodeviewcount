@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Creates table for views counting.
@@ -63,7 +62,6 @@ function nodeviewcount_install() {
   variable_set('nodeviewcount_user_roles', array());
   variable_set('nodeviewcount_way_counting', NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS);
   variable_set('nodeviewcount_flush_log_timer', 0);
-  nodeviewcount_update_7212();
 }
 
 /**
@@ -78,40 +76,26 @@ function nodeviewcount_uninstall() {
 }
 
 /**
- * Add a new nid index in DB to the table nodeviewcount.
+ * Impelemtns hook_update_last_removed().
  */
-function nodeviewcount_update_7211() {
-  $table = 'nodeviewcount';
-  $index_name = 'nid';
-
-  if (db_table_exists($table)) {
-    if (!db_index_exists($table, $index_name)) {
-      db_add_index($table, $index_name, array('nid'));
-      return t('New index added');
-    }
-    else {
-      return t('Index already exist');
-    }
-  }
-}
-
-/**
- * Create initial secret key, used to generate validation URL tokens.
- */
-function nodeviewcount_update_7212() {
-  variable_set('nodeviewcount_secret_key', drupal_random_key());
+function nodeviewcount_update_last_removed() {
+  // Require only all 2.x updates since we repeat the 3.x update here.
+  return 7212;
 }
 
 /**
  * Create field in database, for storage user IP.
  */
-function nodeviewcount_update_7300() {
-  $field = array(
-    'description' => 'The user IP who view of node.',
-    'type' => 'varchar',
-    'length' => 100,
-    'not null' => TRUE,
-    'default' => 0,
-  );
-  db_add_field('nodeviewcount', 'uip', $field);
+function nodeviewcount_update_1000() {
+  // Repeat update 7300 from Drupal 7.
+  if (!db_field_exists('nodeviewcount', 'uip')) {
+    $field = array(
+      'description' => 'The user IP who view of node.',
+      'type' => 'varchar',
+      'length' => 100,
+      'not null' => TRUE,
+      'default' => 0,
+    );
+    db_add_field('nodeviewcount', 'uip', $field);
+  }
 }
