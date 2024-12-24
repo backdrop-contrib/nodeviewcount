@@ -34,6 +34,14 @@ Issues <!-- This section is required. -->
 Bugs and feature requests should be reported in [the Issue Queue](https://github.com/backdrop-contrib/foo-project/issues).
 
 
+Differences from Drupal 7 <!-- Do not include if there are no differences. -->
+-------------------------
+
+- Labels descriptions on the settings form have been improved.
+- Views Group has been changed from "Count views" to "Nodeview count".
+- Entity API integration has been replaced by a single db_select().
+
+
 Current Maintainers <!-- This section is required. -->
 -------------------
 
