@@ -1,6 +1,6 @@
+type = module
 name = Node view count
-description = Module count view of node for user.
+description = Record each time someone views a node.
 backdrop = 1.x
 
 configure = admin/config/content/nodeviewcount
-
