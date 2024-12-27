@@ -79,14 +79,19 @@ function nodeviewcount_uninstall() {
  * Impelemtns hook_update_last_removed().
  */
 function nodeviewcount_update_last_removed() {
-  // Require only all 2.x updates since we repeat the 3.x update here.
-  return 7212;
+  // Require only 2.x updates since we repeat the 3.x update here.
+  return 7211;
 }
 
 /**
  * Create field in database, for storage user IP.
  */
 function nodeviewcount_update_1000() {
+  // Repeat update 7212 from Drupal 7.
+  if (!isset(update_variable_get('nodeviewcount_secret_key', FALSE)) {
+    variable_set('nodeviewcount_secret_key', backdrop_random_key());
+  }
+
   // Repeat update 7300 from Drupal 7.
   if (!db_field_exists('nodeviewcount', 'uip')) {
     $field = array(
