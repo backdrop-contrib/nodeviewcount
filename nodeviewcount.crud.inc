@@ -83,19 +83,24 @@ function nodeviewcount_get_node_view_modes_count() {
  *   TRUE if the user role checked for count views, otherwise FALSE.
  */
 function nodeviewcount_is_user_role_count($user) {
-  $nodeviewcount_user_roles = variable_get('nodeviewcount_user_roles', array());
+
+  // Excluded roles will be considered first.
   $excluded_user_roles = variable_get('nodeviewcount_excluded_user_roles', array());
-  $user_roles_ids = array_keys($user->roles);
-  foreach ($user_roles_ids as $role_id) {
-    if (!empty($excluded_user_roles[$role_id])) {
+  foreach ($excluded_user_roles as $role_name) {
+    if (in_array($role_name, $user->roles)) {
       return FALSE;
     }
   }
-  foreach ($user_roles_ids as $role_id) {
-    if (!empty($nodeviewcount_user_roles[$role_id])) {
+
+  // Then check for included roles.
+  $nodeviewcount_user_roles = variable_get('nodeviewcount_user_roles', array());
+  foreach ($nodeviewcount_user_roles as $role_name) {
+    if (in_array($role_name, $user->roles)) {
       return TRUE;
     }
   }
+
+  // Do not record unless instructed.
   return FALSE;
 }
 

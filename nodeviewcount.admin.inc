@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Admin form defenition.
@@ -9,38 +8,39 @@
  * Nodeviewcount admin form.
  */
 function nodeviewcount_admin_settings_form($form, &$form_state) {
+  $config = config('nodeviewcount.settings');
+  $form['#config'] = 'nodeviewcount.settings';
+
   // Get node types options.
   $options_node_type = nodeviewcount_get_checked_node_types();
   $form['nodeviewcount_node_types'] = array(
-    '#title' => t('Node types'),
-    '#description' => t('Choose content types to count views of node.'),
+    '#title' => t('Content types: count views on content of this type'),
     '#type' => 'checkboxes',
     '#options' => $options_node_type,
-    '#default_value' => variable_get('nodeviewcount_node_types', array()),
+    '#default_value' => $config->get('nodeviewcount_node_types'),
   );
   // Get node view modes.
   $form['nodeviewcount_node_modes'] = array(
-    '#title' => t('Node view modes'),
+    '#title' => t('Node display modes'),
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
   $options_node_view_modes = nodeviewcount_get_node_view_modes();
-  $nodeviewcount_node_view_modes = variable_get('nodeviewcount_node_view_modes', array());
   $form['nodeviewcount_node_modes']['nodeviewcount_node_view_modes'] = array(
     '#description' => t('Choose node view modes to count views of node.'),
     '#type' => 'checkboxes',
     '#options' => $options_node_view_modes,
-    '#default_value' => $nodeviewcount_node_view_modes,
+    '#default_value' => $config->get('nodeviewcount_node_view_modes'),
   );
   // Get user roles options.
   $options_user_roles = node_view_count_get_user_roles();
   $form['nodeviewcount_user_roles'] = array(
-    '#title' => t('User roles'),
-    '#description' => t('Choose user roles to count node views for.'),
+    '#title' => t('Recorded user roles'),
+    '#title' => t('User roles: count views from people in these roles'),
     '#type' => 'checkboxes',
     '#options' => $options_user_roles,
-    '#default_value' => variable_get('nodeviewcount_user_roles', array()),
+    '#default_value' => $config->get('nodeviewcount_user_roles'),
   );
   // Get excluded user roles.
   $form['nodeviewcount_excluded_roles'] = array(
@@ -54,7 +54,7 @@ function nodeviewcount_admin_settings_form($form, &$form_state) {
     '#description' => t('Choose user roles which will be excluded from counting node views.'),
     '#type' => 'checkboxes',
     '#options' => $options_excluded_user_roles,
-    '#default_value' => variable_get('nodeviewcount_excluded_user_roles', array()),
+    '#default_value' => $config->get('nodeviewcount_excluded_user_roles'),
   );
   // Get user roles options.
   $options_user_roles = node_view_count_get_user_roles();
@@ -63,19 +63,18 @@ function nodeviewcount_admin_settings_form($form, &$form_state) {
     '#description' => t('Choose user roles to count node views for.'),
     '#type' => 'checkboxes',
     '#options' => $options_user_roles,
-    '#default_value' => variable_get('nodeviewcount_user_roles', array()),
+    '#default_value' => $config->get('nodeviewcount_user_roles'),
   );
   // Get ways of counting options.
   $options_way_counting = array(
-    NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS => t('PHP way'),
-    NODEVIEWCOUNT_JS_WAY_COUNT_VIEWS => t('JS way'),
+    NODEVIEWCOUNT_JS_WAY_COUNT_VIEWS => t('JavaScript (reommended)'),
+    NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS => t('PHP (Anonymos views cannot be counted)'),
   );
   $form['nodeviewcount_way_counting'] = array(
-    '#title' => t('Ways of counting'),
-    '#description' => t('Choose a way how the module should count node view. If you want count node views anonymous users you must choose JS way.'),
+    '#title' => t('Method of counting'),
     '#type' => 'radios',
     '#options' => $options_way_counting,
-    '#default_value' => variable_get('nodeviewcount_way_counting', NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS),
+    '#default_value' => $config->get('nodeviewcount_way_counting'),
   );
   $options_flush_log_timer = array(
     0 => t('Never'),
@@ -89,14 +88,14 @@ function nodeviewcount_admin_settings_form($form, &$form_state) {
     15552000,
     31536000,
   );
-  $options_flush_log_timer += drupal_map_assoc($time_intervals, 'format_interval');
+  $options_flush_log_timer += backdrop_map_assoc($time_intervals, 'format_interval');
   $cron_path = array(
     '@cron' => url('admin/reports/status'),
   );
   $form['nodeviewcount_flush_log_timer'] = array(
     '#type' => 'select',
     '#title' => t('Discard node views logs older than'),
-    '#default_value' => variable_get('nodeviewcount_flush_log_timer', 0),
+    '#default_value' => $config->get('nodeviewcount_flush_log_timer'),
     '#options' => $options_flush_log_timer,
     '#description' => t('Older log entries will be automatically discarded, (Requires a correctly configured <a href="@cron">cron maintenance task</a>.). Pick Never if you dont want logs to be deleted.', $cron_path),
   );
@@ -110,39 +109,36 @@ function nodeviewcount_admin_settings_form($form, &$form_state) {
     36000,
     86400,
   );
-  $options_views_intervals += drupal_map_assoc($time_views_intervals, 'format_interval');
+  $options_views_intervals += backdrop_map_assoc($time_views_intervals, 'format_interval');
   $form['nodeviewcount_views_limit'] = array(
-    '#title' => t('Views limit'),
+    '#title' => t('Single page view limit'),
     '#description' => t('It stops increasing the number of views for a specific user and specific node during the selected time period. It may be necessary to protect the database from flooding.'),
     '#type' => 'select',
     '#options' => $options_views_intervals,
-    '#default_value' => variable_get('nodeviewcount_views_limit', 0),
+    '#default_value' => $config->get('nodeviewcount_views_limit'),
   );
   $form['nodeviewcount_secret_key'] = array(
     '#title' => t('Secret key'),
     '#description' => t('Secret key used to generate tokens for URL validation.'),
     '#type' => 'textfield',
     '#required' => TRUE,
-    '#default_value' => variable_get('nodeviewcount_secret_key', 'SECRET_KEY'),
+    '#default_value' => $config->get('nodeviewcount_secret_key'),
   );
-  $form['#submit'][] = 'nodeviewcount_admin_settings_form_submit';
-  $form = system_settings_form($form);
-  return $form;
-}
 
-/**
- * Submit handler.
- *
- * @see nodeviewcount_admin_settings_form()
- */
-function nodeviewcount_admin_settings_form_submit($form, &$form_state) {
-  $values = $form_state['values'];
-  $couting_user_roles = $values['nodeviewcount_user_roles'];
-  foreach ($couting_user_roles as $key => $couting_user_role) {
-    if ($couting_user_role) {
-      $form_state['values']['nodeviewcount_excluded_user_roles'][$key] = 0;
-    }
+  // Date format will be 'Y-m-d H:i:sP' on new installs.
+  $form['date_format'] = array(
+    '#title' => t('PHP Datee format used to store the date in the database'),
+    '#description' => t('This cannot be changed after NodeView data has been stored.'),
+    '#type' => 'textfield',
+    '#default_value' => $config->get('date_format'),
+  );
+  if (db_select('nodeviewcount')->countQuery()->execute()->fetchField() > 0) {
+    $form['date_format']['#disabled'] = TRUE;
   }
+
+  $form = system_settings_form($form);
+
+  return $form;
 }
 
 /**
@@ -170,7 +166,8 @@ function nodeviewcount_get_checked_node_types() {
 function node_view_count_get_user_roles() {
   $options = array();
   // Excluded user roles.
-  $excluded_user_roles = variable_get('nodeviewcount_excluded_user_roles', array());
+  $config = config('nodeviewcount.settings');
+  $excluded_user_roles = $config->get('nodeviewcount_excluded_user_roles');
   // All user roles on site.
   $user_roles = user_roles();
   foreach ($user_roles as $key => $user_role) {
@@ -190,7 +187,8 @@ function node_view_count_get_user_roles() {
 function node_view_count_get_excluded_user_roles() {
   $options = array();
   // Counting user roles.
-  $counting_user_roles = variable_get('nodeviewcount_user_roles', array());
+  $config = config('nodeviewcount.settings');
+  $counting_user_roles = $config->get('nodeviewcount_user_roles');
   // All user roles on site.
   $user_roles = user_roles();
   foreach ($user_roles as $key => $user_role) {

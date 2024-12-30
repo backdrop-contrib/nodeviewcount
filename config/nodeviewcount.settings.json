@@ -1,0 +1,13 @@
+{
+    "_config_name": "nodeviewcount.settings",
+    "_module": "nodeviewcount",
+    "date_format": "Y-m-d H:i:sP",
+    "nodeviewcount_node_types": [],
+    "nodeviewcount_node_view_modes": [],
+    "nodeviewcount_user_roles": [],
+    "nodeviewcount_excluded_user_roles": [],
+    "nodeviewcount_way_counting": "1",
+    "nodeviewcount_flush_log_timer": "0",
+    "nodeviewcount_views_limit": 0,
+    "nodeviewcount_secret_key": ""
+}

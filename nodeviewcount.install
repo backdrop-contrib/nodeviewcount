@@ -55,35 +55,33 @@ function nodeviewcount_schema() {
 }
 
 /**
- * Implements hook_install().
+ * Impelemtns hook_update_last_removed().
  */
-function nodeviewcount_install() {
-  // @todo convert to config
-  variable_set('nodeviewcount_node_types', array());
-  variable_set('nodeviewcount_user_roles', array());
-  variable_set('nodeviewcount_way_counting', NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS);
-  variable_set('nodeviewcount_flush_log_timer', 0);
+function nodeviewcount_update_last_removed() {
+  // Require only 2.x updates since we repeat the 3.x update here.
+  return 7211;
 }
 
 /**
- * Implements hook_uninstall().
- */
-function nodeviewcount_uninstall() {
-  // @todo convert to config
-  variable_del('nodeviewcount_node_types');
-  variable_del('nodeviewcount_user_roles');
-  variable_del('nodeviewcount_way_counting');
-  variable_del('nodeviewcount_flush_log_timer');
-  variable_del('nodeviewcount_secret_key');
-}
-
-/**
- * Repeat 3.x updates if needed.
+ * Repeat 3.x branch updates if needed.
  */
 function nodeviewcount_update_1000() {
   // Repeat update 7212 from Drupal 7.
-  if (!isset(update_variable_get('nodeviewcount_secret_key', FALSE)) {
+  $secret_key = update_variable_get('nodeviewcount_secret_key', FALSE);
+  if (!isset($secret_key)) {
     variable_set('nodeviewcount_secret_key', backdrop_random_key());
+  }
+
+  // Switch column name from 'timestamp' to 'datetime' - missing from D7.
+  if (!db_field_exists('nodeviewcount', 'datetime')) {
+    $field = array(
+      'description' => 'The date when the node was view.',
+      'type' => 'varchar',
+      'length' => 100,
+      'not null' => TRUE,
+      'default' => 0,
+    );
+    db_change_field('nodeviewcount', 'timestamp', 'datetime', $field);
   }
 
   // Repeat update 7300 from Drupal 7.
@@ -97,4 +95,34 @@ function nodeviewcount_update_1000() {
     );
     db_add_field('nodeviewcount', 'uip', $field);
   }
+}
+
+/**
+ * Convert from vaiables to config.
+ */
+function nodeviewcount_update_1001() {
+  $variables = array(
+    'nodeviewcount_user_roles' => array(),
+    'nodeviewcount_excluded_user_roles' => array(),
+    'nodeviewcount_node_types' => array(),
+    'nodeviewcount_node_view_modes' => array(),
+    'nodeviewcount_way_counting' => 0, // Set to PHP if coming from Drupal.
+    'nodeviewcount_flush_log_timer' => 0,
+    'nodeviewcount_secret_key' => backdrop_random_key(),
+    'nodeviewcount_views_limit' => 0,
+  );
+
+  $config = config('nodeviewcount.settings');
+  foreach ($variables as $name => $default_value) {
+    $variable_value = update_variable_get($name, $default_value);
+    $config->set($name, $variable_value);
+    variable_del($name);
+  }
+
+  // If upgrading from Drupal, date format is unix timestamp.
+  $config->set('date_format', 'U');
+  // Save the new config.
+  $config->save();
+
+  return t('Switched from variables to config.');
 }
