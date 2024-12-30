@@ -1,11 +1,6 @@
+type = module
 name = Node view count
 description = Module count view of node for user.
-core = 7.x
+backdrop = 1.x
 
 configure = admin/config/content/nodeviewcount
-
-; Information added by Drupal.org packaging script on 2018-11-08
-version = "7.x-3.0-beta1+3-dev"
-core = "7.x"
-project = "nodeviewcount"
-datestamp = "1541652483"

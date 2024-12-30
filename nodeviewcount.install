@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Creates table for views counting.
@@ -59,17 +58,18 @@ function nodeviewcount_schema() {
  * Implements hook_install().
  */
 function nodeviewcount_install() {
+  // @todo convert to config
   variable_set('nodeviewcount_node_types', array());
   variable_set('nodeviewcount_user_roles', array());
   variable_set('nodeviewcount_way_counting', NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS);
   variable_set('nodeviewcount_flush_log_timer', 0);
-  nodeviewcount_update_7212();
 }
 
 /**
  * Implements hook_uninstall().
  */
 function nodeviewcount_uninstall() {
+  // @todo convert to config
   variable_del('nodeviewcount_node_types');
   variable_del('nodeviewcount_user_roles');
   variable_del('nodeviewcount_way_counting');
@@ -78,40 +78,23 @@ function nodeviewcount_uninstall() {
 }
 
 /**
- * Add a new nid index in DB to the table nodeviewcount.
+ * Repeat 3.x updates if needed.
  */
-function nodeviewcount_update_7211() {
-  $table = 'nodeviewcount';
-  $index_name = 'nid';
-
-  if (db_table_exists($table)) {
-    if (!db_index_exists($table, $index_name)) {
-      db_add_index($table, $index_name, array('nid'));
-      return t('New index added');
-    }
-    else {
-      return t('Index already exist');
-    }
+function nodeviewcount_update_1000() {
+  // Repeat update 7212 from Drupal 7.
+  if (!isset(update_variable_get('nodeviewcount_secret_key', FALSE)) {
+    variable_set('nodeviewcount_secret_key', backdrop_random_key());
   }
-}
 
-/**
- * Create initial secret key, used to generate validation URL tokens.
- */
-function nodeviewcount_update_7212() {
-  variable_set('nodeviewcount_secret_key', drupal_random_key());
-}
-
-/**
- * Create field in database, for storage user IP.
- */
-function nodeviewcount_update_7300() {
-  $field = array(
-    'description' => 'The user IP who view of node.',
-    'type' => 'varchar',
-    'length' => 100,
-    'not null' => TRUE,
-    'default' => 0,
-  );
-  db_add_field('nodeviewcount', 'uip', $field);
+  // Repeat update 7300 from Drupal 7.
+  if (!db_field_exists('nodeviewcount', 'uip')) {
+    $field = array(
+      'description' => 'The user IP who view of node.',
+      'type' => 'varchar',
+      'length' => 100,
+      'not null' => TRUE,
+      'default' => 0,
+    );
+    db_add_field('nodeviewcount', 'uip', $field);
+  }
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Necessery function for module to work.
