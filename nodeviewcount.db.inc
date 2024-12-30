@@ -1,12 +1,4 @@
 <?php
-
-/**
- * @file
- * Database functions.
- */
-
-define('DEFAULT_TIME_FORMAT', 'Y-m-d H:i:sP');
-
 /**
  * @file
  * Database functions.
@@ -26,15 +18,18 @@ define('DEFAULT_TIME_FORMAT', 'Y-m-d H:i:sP');
  *   Count written records or FALSE.
  */
 function nodeviewcount_db_insert_node_view($nid, $uid, $uip) {
-  $dateTime = new DateTime('NOW');
+  $date_format = config_get('nodeviewcount.settings', 'date_format');
+
+  $dateTime = new DateTime(REQUEST_TIME);
   $dateTime->setTimeZone(new DateTimeZone(date_default_timezone_get()));
   $fields = array(
     'nid' => $nid,
     'uid' => $uid,
-    'datetime' => $dateTime->format(DEFAULT_TIME_FORMAT),
+    'datetime' => $dateTime->format('U'),
     'uip' => $uip,
   );
-  return drupal_write_record('nodeviewcount', $fields);
+
+  return backdrop_write_record('nodeviewcount', $fields);
 }
 
 /**
