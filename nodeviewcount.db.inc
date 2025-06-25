@@ -20,12 +20,12 @@
 function nodeviewcount_db_insert_node_view($nid, $uid, $uip) {
   $date_format = config_get('nodeviewcount.settings', 'date_format');
 
-  $dateTime = new DateTime(REQUEST_TIME);
+  $dateTime = new DateTime('NOW');
   $dateTime->setTimeZone(new DateTimeZone(date_default_timezone_get()));
   $fields = array(
     'nid' => $nid,
     'uid' => $uid,
-    'datetime' => $dateTime->format('U'),
+    'datetime' => $dateTime->format($date_format),
     'uip' => $uip,
   );
 
