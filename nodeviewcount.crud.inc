@@ -32,7 +32,7 @@ function nodeviewcount_insert_node_view($nid, $uid, $uip) {
  *   TRUE if the node content type checked for count views, otherwise FALSE.
  */
 function nodeviewcount_is_node_type_count($node) {
-  $node_types = variable_get('nodeviewcount_node_types', array());
+  $node_types = config_get('nodeviewcount.settings', 'nodeviewcount_node_types');
   if (!empty($node_types[$node->type])) {
     return TRUE;
   }
@@ -49,7 +49,7 @@ function nodeviewcount_is_node_type_count($node) {
  *   TRUE if the node content type checked for count views, otherwise FALSE.
  */
 function nodeviewcount_is_node_view_mode_count($view_mode) {
-  $node_view_modes = variable_get('nodeviewcount_node_view_modes', array());
+  $node_view_modes = config_get('nodeviewcount.settings', 'nodeviewcount_node_view_modes');
   if (!empty($node_view_modes[$view_mode])) {
     return TRUE;
   }
@@ -64,7 +64,7 @@ function nodeviewcount_is_node_view_mode_count($view_mode) {
  */
 function nodeviewcount_get_node_view_modes_count() {
   $node_view_modes_count = array();
-  $node_view_modes = variable_get('nodeviewcount_node_view_modes', array());
+  $node_view_modes = config_get('nodeviewcount.settings', 'nodeviewcount_node_view_modes');
   foreach ($node_view_modes as $node_view_mode) {
     if ($node_view_mode !== 0) {
       $node_view_modes_count[] = $node_view_mode;
@@ -85,7 +85,7 @@ function nodeviewcount_get_node_view_modes_count() {
 function nodeviewcount_is_user_role_count($user) {
 
   // Excluded roles will be considered first.
-  $excluded_user_roles = variable_get('nodeviewcount_excluded_user_roles', array());
+  $excluded_user_roles = config_get('nodeviewcount.settings', 'nodeviewcount_excluded_user_roles');
   foreach ($excluded_user_roles as $role_name) {
     if (in_array($role_name, $user->roles)) {
       return FALSE;
@@ -93,7 +93,7 @@ function nodeviewcount_is_user_role_count($user) {
   }
 
   // Then check for included roles.
-  $nodeviewcount_user_roles = variable_get('nodeviewcount_user_roles', array());
+  $nodeviewcount_user_roles = config_get('nodeviewcount.settings', 'nodeviewcount_user_roles');
   foreach ($nodeviewcount_user_roles as $role_name) {
     if (in_array($role_name, $user->roles)) {
       return TRUE;

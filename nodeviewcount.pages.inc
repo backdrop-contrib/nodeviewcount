@@ -20,7 +20,8 @@
  *   Token generated to verify the URL.
  */
 function nodeviewcount_count_node_view_ajax($node, $user, $timestamp, $uip, $token) {
-  $is_js_way = (variable_get('nodeviewcount_way_counting', NODEVIEWCOUNT_PHP_WAY_COUNT_VIEWS) == NODEVIEWCOUNT_JS_WAY_COUNT_VIEWS);
+  $way_counting = config_get('nodeviewcount.settings', 'nodeviewcount_way_counting');
+  $is_js_way = ($way_counting == NODEVIEWCOUNT_JS_WAY_COUNT_VIEWS);
 
   // Process the request only if the JS counting method is the selected.
   if ($is_js_way) {
